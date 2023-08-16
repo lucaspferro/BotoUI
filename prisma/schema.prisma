@@ -31,6 +31,7 @@ model Account {
     access_token      String? // @db.Text
     created_at        Int?
     expires_at        Int?
+    ext_expires_in    Int?
     token_type        String?
     scope             String?
     id_token          String? // @db.Text

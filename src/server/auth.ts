@@ -7,6 +7,7 @@ import {
   type NextAuthOptions,
   getServerSession,
 } from 'next-auth';
+import AzureADProvider from 'next-auth/providers/azure-ad';
 import GitlabProvider from 'next-auth/providers/gitlab';
 
 /**
@@ -62,6 +63,11 @@ export const authOptions: NextAuthOptions = {
       userinfo: {
         url: `${env.GITLAB_URL}/api/v4/user`,
       },
+    }),
+    AzureADProvider({
+      clientId: env.AZURE_AD_ID,
+      clientSecret: env.AZURE_AD_SECRET,
+      tenantId: env.AZURE_AD_TENANT_ID,
     }),
   ],
 };

@@ -1,0 +1,9 @@
+{
+  "localhost-proxy": {
+    "source": 8080,
+    "target": 3000,
+    "hostname": "localhost",
+    "key": "/etc/ssl/website.matheus.key",
+    "cert": "/etc/ssl/website.matheus.crt"
+  }
+}

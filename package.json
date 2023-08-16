@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "dev-ssl": "next dev & npx local-ssl-proxy --config ssl-config.json",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",

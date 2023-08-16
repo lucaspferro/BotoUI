@@ -24,6 +24,9 @@ export const env = createEnv({
     GITLAB_ID: z.string(),
     GITLAB_SECRET: z.string(),
     GITLAB_URL: z.string().url(),
+    AZURE_AD_ID: z.string(),
+    AZURE_AD_SECRET: z.string(),
+    AZURE_AD_TENANT_ID: z.string(),
   },
 
   /**
@@ -47,6 +50,9 @@ export const env = createEnv({
     GITLAB_ID: process.env.GITLAB_ID,
     GITLAB_SECRET: process.env.GITLAB_SECRET,
     GITLAB_URL: process.env.GITLAB_URL,
+    AZURE_AD_ID: process.env.AZURE_AD_ID,
+    AZURE_AD_SECRET: process.env.AZURE_AD_SECRET,
+    AZURE_AD_TENANT_ID: process.env.AZURE_AD_TENANT_ID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
