@@ -10,24 +10,36 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Boto UI</title>
+        <title>Boto</title>
         <meta name="description" content="PV Alarm System" />
         <link rel="icon" href="/icon.svg" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#9370DB] to-[#15162c]">
+        <div className="flex justify-between justify-center  px-4 py-16 ">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
+            Boto<span className="text-[#2e026d]">PV</span>Alarm
+            <p className="text-sm font-extrabold tracking-tight flex-col items-center justify-centerr text-white sm:text-[1.5rem]">
+              Programmable<span className="text-[#2e026d]">PV</span> alarm
+            </p>
           </h1>
-          <div className="flex flex-col items-center gap-2">
+        </div>
+
+        <div className="flex min-h-screen  justify-center  ">
+          <div className=" grid justify-items-star gap-2 ">
             <DemoTablePage />
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello.data ? hello.data.greeting : 'Loading tRPC query...'}
-            </p>
-            <AuthShowcase />
+
+          <div className="grid justify-items-end gap-2">
+            <DemoTablePage />
           </div>
+        </div>
+
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-2xl text-white">
+            {hello.data ? hello.data.greeting : 'Loading tRPC query...'}
+          </p>
+          <AuthShowcase />
         </div>
       </main>
     </>

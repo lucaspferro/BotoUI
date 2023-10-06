@@ -11,7 +11,7 @@ for (let i = 0; i < 30; i++) {
   const payment = {
     id: uid,
     amount: random(100, 1000) + random(0, 99) / 100,
-    status: ['pending', 'processing', 'success', 'failed'].sort(
+    status: ['connected', 'name', 'severity', 'status', 'value'].sort(
       () => random() - 0.5,
     )[0],
     email: `${uid}@example.com`,
