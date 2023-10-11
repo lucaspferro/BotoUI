@@ -18,9 +18,9 @@ import {
 } from '@/components/ui/table';
 import {
   type ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  type ColumnFiltersState,
+  type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center justify-end space-x-2 py-4 text-black"></div>
 
       <div>
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto text-black ">
               Columns
@@ -97,8 +97,8 @@ export function DataTable<TData, TValue>({
                 );
               })}
           </DropdownMenuContent>
-        </DropdownMenu>
-        {
+        </DropdownMenu> */}
+        {/* {
           <div className="flex items-center py-4">
             <Input
               placeholder="Filter PV-Names..."
@@ -111,7 +111,7 @@ export function DataTable<TData, TValue>({
               className="max-w-sm  text-black"
             />
           </div>
-        }
+        } */}
         <Table>
           <TableHeader className="rounded-md border-2 border-white-500 font-bold text-black ">
             {table.getHeaderGroups().map((headerGroup) => (
