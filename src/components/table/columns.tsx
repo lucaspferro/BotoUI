@@ -18,24 +18,39 @@ type Actions = {
 
 export const generateColumns = (actions: Actions): ColumnDef<TableData>[] => [
   {
+    id: 'pvName',
     accessorKey: 'pvName',
     header: 'PV Name',
+    enableSorting: true,
+    enableHiding: false,
   },
   {
+    id: 'caGetValue',
     accessorKey: 'caGetValue',
     header: 'Value',
+    enableSorting: true,
+    enableHiding: false,
   },
   {
+    id: 'alarmType',
     accessorKey: 'alarmType',
     header: 'Alarm Type',
+    enableSorting: true,
+    enableHiding: false,
   },
   {
+    id: 'alarmValue',
     accessorKey: 'alarmValue',
     header: 'Alarm Value',
+    enableSorting: true,
+    enableHiding: false,
   },
   {
+    id: 'notificationType',
     accessorKey: 'notificationType',
     header: 'Notification Type',
+    enableSorting: true,
+    enableHiding: false,
   },
   {
     id: 'subscribeAlarm',
@@ -64,5 +79,7 @@ export const generateColumns = (actions: Actions): ColumnDef<TableData>[] => [
         <X className="h-4 w-4" />
       </Button>
     ),
+    enableSorting: true,
+    enableHiding: false,
   },
 ];

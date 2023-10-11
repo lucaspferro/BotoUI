@@ -28,6 +28,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import * as React from 'react';
 
 interface DataTableProps<TData, TValue> {
@@ -98,20 +99,39 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu> */}
-        {/* {
-          <div className="flex items-center py-4">
-            <Input
-              placeholder="Filter PV-Names..."
-              value={
-                (table.getColumn('name')?.getFilterValue() as string) ?? ''
-              }
-              onChange={(event) =>
-                table.getColumn('name')?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm  text-black"
-            />
+
+        <div className="grid grid-cols-2 items-center py-4">
+          <Input
+            placeholder="Filter PV-Names..."
+            value={
+              (table.getColumn('pvName')?.getFilterValue() as string) ?? ''
+            }
+            onChange={(event) =>
+              table.getColumn('pvName')?.setFilterValue(event.target.value)
+            }
+            className="flex  text-black"
+          />
+          <div className="justify-self-end space-x-2 text-black">
+            <Button
+              title="Previous Page"
+              variant="outline"
+              size="icon"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <ChevronLeft />
+            </Button>
+            <Button
+              title="Next Page"
+              variant="outline"
+              size="icon"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <ChevronRight />
+            </Button>
           </div>
-        } */}
+        </div>
         <Table>
           <TableHeader className="rounded-md border-2 border-white-500 font-bold text-black ">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -163,28 +183,6 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4 text-black">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
-      <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{' '}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
     </div>
   );
