@@ -1,6 +1,8 @@
 import { epics2webDataRouter } from '@/server/api/routers/epics2web';
 import { createTRPCRouter } from '@/server/api/trpc';
 
+import { alarmDbRouter } from './routers/alarms';
+
 /**
  * This is the primary router for your server.
  *
@@ -8,7 +10,7 @@ import { createTRPCRouter } from '@/server/api/trpc';
  */
 export const appRouter = createTRPCRouter({
   epicsData: epics2webDataRouter,
-  myTableData: tableDataRouter,
+  alarms: alarmDbRouter,
 });
 
 // export type definition of API

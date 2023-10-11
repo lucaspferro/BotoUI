@@ -57,6 +57,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    selectedPvAlarms PvAlarm[]
 }
 
 model VerificationToken {
@@ -66,3 +67,20 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model PvAlarm {
+    id String @id @default(cuid())
+    pvName String
+    alarmType String // regex? 'x < value' | 'x > value' | 'value[0] < x < value[1]'
+    alarmValue String // 'value' | '(value[0], value[1])'
+    notificationType String // 'email' | 'sms' 
+    userId String
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// // TODO: do we need >= <= ?
+// type AlarmType = {
+//     comparisonType: 'binary' | 'range',
+//     comparisonOperator: '>' | '<' | '=<', '=>',
+//     comparisonValue: number | [number, number]
+// }
