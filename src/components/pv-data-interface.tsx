@@ -1,19 +1,38 @@
-import { type TableData, columns } from '@/components/table/columns';
+import { type TableData, generateColumns } from '@/components/table/columns';
 import { DataTable } from '@/components/table/data-table';
-import { type CaGetData } from '@/server/api/routers/epics2web';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { api } from '@/utils/api';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { nanoid } from 'nanoid';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
-import { Button } from './ui/button';
-import { Input } from './ui/input';
+export const formSchema = z.object({
+  id: z.string(),
+  pvname: z.string().min(2, {
+    message: 'pvname must be at least 2 characters.',
+  }),
+});
+
+type FormSchema = z.infer<typeof formSchema>;
 
 export default function PvDataInterface() {
-  const [pvName, setPvName] = useState<string>('');
-  const [pvNames, setPvNames] = useState<string[]>([]);
+  const [pvNames, setPvNames] = useState<FormSchema[]>([]);
   const [tableData, setTableData] = useState<TableData[]>([]);
-  const { isSuccess, isError } = api.epicsData.caGetPvList.useQuery(pvNames, {
+  const {} = api.epicsData.caGetPvList.useQuery(pvNames, {
     refetchOnWindowFocus: false,
-    enabled: pvNames.length > 0,
+    // enabled: pvNames.length > 0,
     // refetchInterval: 1000,
     onError: (error) => {
       console.log('onError', error);
@@ -23,49 +42,70 @@ export default function PvDataInterface() {
     onSuccess: (data) => {
       console.log('onSuccess', data);
       // fill tableData with the data from the pvData
-      const newTableData = data.data.map((pv: CaGetData) => {
+      const newTableData = data.map((pv) => {
         return {
+          id: pv.id,
           pvName: pv.name,
           caGetValue: pv.value,
           alarmType: '',
           alarmValue: '',
           notificationType: '',
-          subscribeAlarm: false,
-          removeFromView: false,
         };
       });
       setTableData(newTableData);
     },
   });
 
-  const handleAddPvName = () => {
-    setPvNames([...pvNames, pvName]);
+  const subscribeAlarm = (id: string) => {
+    console.log('subscribeAlarm', id);
+  };
+  const removeFromView = (id: string) => {
+    const newPvNames = pvNames.filter((pv) => pv.id !== id);
+    setPvNames(newPvNames);
+  };
+
+  const columns = generateColumns({ subscribeAlarm, removeFromView });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      id: nanoid(),
+      pvname: '',
+    },
+  });
+
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
+    setPvNames([...pvNames, data]);
+    form.reset({ id: nanoid(), pvname: '' });
   };
 
   return (
-    <div className="container mx-auto py-10 text-white ">
-      <div className="flex items-center justify-center space-x-1 py-4 text-black">
-        <Input
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-          type="text"
-          placeholder="PV Name"
-          onChange={(e) => setPvName(e.target.value)}
-        />
-        <Button
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-          onClick={() => handleAddPvName()}
-        >
-          Query
-        </Button>
-        <Button
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-          onClick={() => setPvNames([])}
-        >
-          Clear
-        </Button>
-      </div>
-      {isError && <div>Something went wrong ... pop!</div>}
-      {isSuccess && <DataTable columns={columns} data={tableData} />}
+    <div>
+      <Form {...form}>
+        <form onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}>
+          <FormField
+            control={form.control}
+            name="id"
+            render={({ field }) => <Input type="hidden" {...field} />}
+          />
+          <FormField
+            control={form.control}
+            name="pvname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Pv</FormLabel>
+                <FormControl>
+                  <Input placeholder="minha pv caralho" {...field} />
+                </FormControl>
+                <FormDescription>Enter the pv name</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">QUERY</Button>
+        </form>
+      </Form>
+      <DataTable columns={columns} data={tableData} />
     </div>
   );
 }

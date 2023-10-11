@@ -1,4 +1,5 @@
 //  router for querying the table data
+import { formSchema } from '@/components/pv-data-interface';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
@@ -17,10 +18,10 @@ export type CaGetData = z.infer<typeof CaGetDataSchema>;
 
 export const epics2webDataRouter = createTRPCRouter({
   caGetPvList: publicProcedure
-    .input(z.array(z.string()))
+    .input(z.array(formSchema))
     .query(async ({ input }) => {
       const pvList = input;
-      const params = new URLSearchParams(pvList.map((s) => ['pv', s]));
+      const params = new URLSearchParams(pvList.map((s) => ['pv', s.pvname]));
       const response = await fetch(
         `http://ais-eng-srv-la.cnpem.br/epics2web/caget?${params.toString()}`,
       );
@@ -33,6 +34,10 @@ export const epics2webDataRouter = createTRPCRouter({
           message: 'Error parsing response from CA',
         });
       }
-      return result.data;
+      return result.data.data.map((d, index) => ({
+        id: pvList[index]?.id ?? '',
+        name: d.name,
+        value: d.value,
+      }));
     }),
 });

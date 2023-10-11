@@ -7,12 +7,16 @@ import { Check, X } from 'lucide-react';
 import { Button } from '../ui/button';
 
 export type TableData = NewAlarm & {
+  id: string;
   caGetValue: number;
-  subscribeAlarm: boolean;
-  removeFromView: boolean;
 };
 
-export const columns: ColumnDef<TableData>[] = [
+type Actions = {
+  subscribeAlarm: (id: string) => void;
+  removeFromView: (id: string) => void;
+};
+
+export const generateColumns = (actions: Actions): ColumnDef<TableData>[] => [
   {
     accessorKey: 'pvName',
     header: 'PV Name',
@@ -39,7 +43,7 @@ export const columns: ColumnDef<TableData>[] = [
       <Button
         variant="ghost"
         className="h-8 w-8 p-0"
-        onClick={() => row.toggleSelected(!row.getIsSelected())}
+        onClick={() => actions.subscribeAlarm(row.original.id)}
       >
         <span className="sr-only">Remove from view</span>
         <Check className="h-4 w-4" />
@@ -54,7 +58,7 @@ export const columns: ColumnDef<TableData>[] = [
       <Button
         variant="ghost"
         className="h-8 w-8 p-0"
-        onClick={() => row.toggleSelected(!row.getIsSelected())}
+        onClick={() => actions.removeFromView(row.original.id)}
       >
         <span className="sr-only">Remove from view</span>
         <X className="h-4 w-4" />
