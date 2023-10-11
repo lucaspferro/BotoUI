@@ -11,35 +11,32 @@ export default function PvDataInterface() {
   const [pvName, setPvName] = useState<string>('');
   const [pvNames, setPvNames] = useState<string[]>([]);
   const [tableData, setTableData] = useState<TableData[]>([]);
-  const { isSuccess, isError, isLoading } = api.epicsData.caGetPvList.useQuery(
-    pvNames,
-    {
-      refetchOnWindowFocus: false,
-      enabled: pvNames.length > 0,
-      refetchInterval: 1000,
-      onError: (error) => {
-        console.log('onError', error);
-        const newPvNames = [...pvNames].slice(0, -1);
-        setPvNames(newPvNames);
-      },
-      onSuccess: (data) => {
-        console.log('onSuccess', data);
-        // fill the tableData with the data from the pvData
-        const newTableData = data.data.map((pv: CaGetData) => {
-          return {
-            pvName: pv.name,
-            caGetValue: pv.value,
-            alarmType: '',
-            alarmValue: '',
-            notificationType: '',
-            subscribeAlarm: false,
-            removeFromView: false,
-          };
-        });
-        setTableData(newTableData);
-      },
+  const { isSuccess, isError } = api.epicsData.caGetPvList.useQuery(pvNames, {
+    refetchOnWindowFocus: false,
+    enabled: pvNames.length > 0,
+    // refetchInterval: 1000,
+    onError: (error) => {
+      console.log('onError', error);
+      const newPvNames = [...pvNames].slice(0, -1);
+      setPvNames(newPvNames);
     },
-  );
+    onSuccess: (data) => {
+      console.log('onSuccess', data);
+      // fill tableData with the data from the pvData
+      const newTableData = data.data.map((pv: CaGetData) => {
+        return {
+          pvName: pv.name,
+          caGetValue: pv.value,
+          alarmType: '',
+          alarmValue: '',
+          notificationType: '',
+          subscribeAlarm: false,
+          removeFromView: false,
+        };
+      });
+      setTableData(newTableData);
+    },
+  });
 
   const handleAddPvName = () => {
     setPvNames([...pvNames, pvName]);
