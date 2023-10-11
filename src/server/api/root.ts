@@ -1,5 +1,4 @@
-import { exampleRouter } from '@/server/api/routers/example';
-import { tableDataRouter } from '@/server/api/routers/tabledata';
+import { epics2webDataRouter } from '@/server/api/routers/epics2web';
 import { createTRPCRouter } from '@/server/api/trpc';
 
 /**
@@ -8,7 +7,7 @@ import { createTRPCRouter } from '@/server/api/trpc';
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  example: exampleRouter,
+  epicsData: epics2webDataRouter,
   myTableData: tableDataRouter,
 });
 
