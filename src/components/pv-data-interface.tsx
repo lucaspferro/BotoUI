@@ -95,7 +95,10 @@ export default function PvDataInterface() {
               <FormItem>
                 <FormLabel>Pv</FormLabel>
                 <FormControl>
-                  <Input placeholder="minha pv caralho" {...field} />
+                  <Input
+                    placeholder="try something like RAD:Thermo1:Gamma"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>Enter the pv name</FormDescription>
                 <FormMessage />
