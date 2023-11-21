@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Buffer } from 'buffer';
-import { JSEncrypt } from 'jsencrypt';
 
 import { private_key, public_key, public_key_api } from './keys';
 
@@ -12,11 +11,12 @@ interface DictEnumStr {
   [key: string]: string[];
 }
 
-function encrypt_request(
+async function encrypt_request(
   login_data: DictStr,
   public_key_api: string,
 ): DictEnumStr {
   let encrypted_data: DictEnumStr = {};
+  const JSEncrypt = (await import('jsencrypt')).default;
   let cipher = new JSEncrypt({
     default_key_size: '2048',
   });
@@ -39,8 +39,9 @@ function encrypt_request(
   return encrypted_data;
 }
 
-function decrypt_response(response_data: string): DictStr {
+async function decrypt_response(response_data: string): DictStr {
   let encrypted_data: DictStr = {};
+  const JSEncrypt = (await import('jsencrypt')).default;
   let cipher = new JSEncrypt({
     default_key_size: '2048',
   });
@@ -63,18 +64,20 @@ function decrypt_response(response_data: string): DictStr {
 async function login_ldap(
   username: string,
   password: string,
-  group: string,
 ): Promise<boolean> {
-  const jsonurl = `${window.location.protocol}//ldap-auth-api.lnls.br`;
+  const jsonurl = `https://ldap-auth-api.lnls.br`;
   const login_data: DictStr = {
     email: username,
     password: password,
     public_key: public_key,
   };
 
-  const encrypted: DictEnumStr = encrypt_request(login_data, public_key_api);
+  const encrypted: DictEnumStr = await encrypt_request(
+    login_data,
+    public_key_api,
+  );
   const encrypt_string: string = JSON.stringify(encrypted);
-  return await axios
+  const res = await axios
     .post(jsonurl, {
       method: 'post',
       timeout: 2000,
@@ -85,10 +88,9 @@ async function login_ldap(
       },
     })
     .then((res) => {
-      let response_json: DictStr = decrypt_response(res.data);
-      console.log(response_json);
-      return response_json;
+      return res.data;
     });
+  console.log(await decrypt_response(res));
 }
 
 export { login_ldap };
