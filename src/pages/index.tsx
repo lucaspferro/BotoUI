@@ -17,9 +17,12 @@ export default function Home() {
 
       <main className="flex min-h-screen flex-col items-center justify-center">
         <div className="flex flex-col gap-8 ">
-          <h1 className="text-2xl font-medium sm:text-[5rem]">
-            Boto<span className="text-pink-600">PV</span>Alarm
+          <h1 className=" text-pink-600 text-2xl text-center font-medium sm:text-[5rem] ">
+            Boto
           </h1>
+          {/* <h1 className="text-2xl font-medium sm:text-[5rem]">
+            Boto<span className="text-pink-600">PV</span>Alarm
+          </h1> */}
           <p className="text-sm font-light tracking-tight flex-col items-center justify-center text-center sm:text-[1.5rem]">
             Programmable <span className="text-pink-600">PV</span> alarm
           </p>
@@ -52,13 +55,14 @@ function AuthShowcase() {
       {sessionData ? (
         <Button
           variant={'outline'}
+          title="sign out"
           className="rounded-lg fixed top-4 right-4"
           onClick={() => void signOut()}
         >
           {parseInitials(sessionData.user?.email ?? '')}
         </Button>
       ) : (
-        <Button className="mt-4" onClick={() => void signIn()}>
+        <Button title="sign in" className="mt-4" onClick={() => void signIn()}>
           Sign in
         </Button>
       )}

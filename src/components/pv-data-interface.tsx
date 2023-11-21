@@ -93,19 +93,23 @@ export default function PvDataInterface() {
             name="pvname"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Pv</FormLabel>
+                <FormLabel>PV</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="try something like RAD:Thermo1:Gamma"
-                    {...field}
-                  />
+                  <div className="flex flex-row gap-2">
+                    <Input
+                      placeholder="try something like RAD:Thermo1:Gamma"
+                      {...field}
+                    />
+                    <Button className="" type="submit">
+                      Add
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormDescription>Enter the pv name</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">QUERY</Button>
         </form>
       </Form>
       <DataTable columns={columns} data={tableData} />

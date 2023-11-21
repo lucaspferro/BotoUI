@@ -23,6 +23,8 @@ export const env = createEnv({
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
     GITLAB_ID: z.string(),
     GITLAB_SECRET: z.string(),
+    GITHUB_ID: z.string(),
+    GITHUB_SECRET: z.string(),
     GITLAB_URL: z.string().url(),
     AZURE_AD_ID: z.string(),
     AZURE_AD_SECRET: z.string(),
@@ -49,6 +51,8 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     GITLAB_ID: process.env.GITLAB_ID,
     GITLAB_SECRET: process.env.GITLAB_SECRET,
+    GITHUB_ID: process.env.GITHUB_ID,
+    GITHUB_SECRET: process.env.GITHUB_SECRET,
     GITLAB_URL: process.env.GITLAB_URL,
     AZURE_AD_ID: process.env.AZURE_AD_ID,
     AZURE_AD_SECRET: process.env.AZURE_AD_SECRET,

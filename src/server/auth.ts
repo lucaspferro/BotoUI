@@ -8,6 +8,7 @@ import {
   getServerSession,
 } from 'next-auth';
 import AzureADProvider from 'next-auth/providers/azure-ad';
+import GithubProvider from 'next-auth/providers/github';
 import GitlabProvider from 'next-auth/providers/gitlab';
 
 /**
@@ -48,6 +49,10 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
+    GithubProvider({
+      clientId: env.GITHUB_ID,
+      clientSecret: env.GITHUB_SECRET,
+    }),
     GitlabProvider({
       clientId: env.GITLAB_ID,
       clientSecret: env.GITLAB_SECRET,
