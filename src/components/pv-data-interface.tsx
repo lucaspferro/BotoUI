@@ -93,10 +93,13 @@ export default function PvDataInterface() {
             name="pvname"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>PV</FormLabel>
+                <FormLabel className="sr-only" htmlFor="pv" hidden>
+                  PV
+                </FormLabel>
                 <FormControl>
                   <div className="flex flex-row gap-2">
                     <Input
+                      id="pv"
                       placeholder="try something like RAD:Thermo1:Gamma"
                       {...field}
                     />
@@ -105,7 +108,6 @@ export default function PvDataInterface() {
                     </Button>
                   </div>
                 </FormControl>
-                <FormDescription>Enter the pv name</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
